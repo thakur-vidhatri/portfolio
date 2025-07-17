@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Particles from "@/components/ui/Backgrounds/Particles/Particles";
 
-const page = () => {
+const Skillspage = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const [showSkills, setShowSkills] = useState(false);
 
@@ -133,4 +133,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Skillspage;

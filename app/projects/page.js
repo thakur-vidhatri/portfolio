@@ -115,7 +115,7 @@ const projects = [
   },
 ];
 
-const Page = () => {
+const Projectpage = () => {
   const scrollRef = useRef(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -303,4 +303,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Projectpage;

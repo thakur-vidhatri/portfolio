@@ -228,17 +228,18 @@ export default function AboutPage() {
               <p className="text-white leading-loose text-lg font-hand font-medium text-center mt-4">
                 Every breakthrough begins with a question — “What if?” What if
                 machines could see like us? Think like us? Solve the problems we
-                overlook? That’s the spark of ideation not just building apps,
-                but building answers. In a world overflowing with data, AI and
-                deep learning aren't just tools they’re lenses that reveal what
-                humans can’t always see. They transform patterns into
-                predictions, effort into efficiency, and ideas into impact. The
-                journey from idea to innovation isn’t linear. It’s a dance
-                between observation and curiosity spotting gaps, connecting
-                dots, and shaping tech that doesn't just impress, but matters.
-                Because the real power of AI lies not in automation, but in
-                augmentation of human potential, of sustainable systems, of the
-                future we dare to imagine.
+                overlook? That&apos;s the spark of ideation not just building
+                apps, but building answers. In a world overflowing with data, AI
+                and deep learning aren&apos;t just tools they&apos;re lenses
+                that reveal what humans can&apos;t always see. They transform
+                patterns into predictions, effort into efficiency, and ideas
+                into impact. The journey from idea to innovation isn&apos;t
+                linear. It&apos;s a dance between observation and curiosity
+                spotting gaps, connecting dots, and shaping tech that
+                doesn&apos;t just impress, but matters. Because the real power
+                of AI lies not in automation, but in augmentation of human
+                potential, of sustainable systems, of the future we dare to
+                imagine.
               </p>
             </motion.div>
           )}
@@ -271,7 +272,7 @@ export default function AboutPage() {
               {
                 title: "SSC - Vidyadhari High School",
                 logo: "/vid.jpg",
-                details: "SSC, 2018–2019",
+                details: "SSC, 2018-2019",
               },
             ].map((edu, i) => (
               <motion.div
