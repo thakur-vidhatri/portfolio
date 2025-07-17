@@ -20,7 +20,7 @@ const tabs = [
     description:
       "Connect with me on LinkedIn for professional networking and updates.",
     content: ["Explore my career journey and achievements."],
-    link: "https://linkedin.com/in/yourprofile",
+    link: "https://www.linkedin.com/in/thakur-vidhatri21",
   },
   {
     id: "github",
@@ -29,7 +29,7 @@ const tabs = [
     title: "My GitHub",
     description: "Browse my projects and contributions.",
     content: ["Explore the code behind my innovations and experiments."],
-    link: "https://github.com/yourusername",
+    link: "https://github.com/thakur-vidhatri",
   },
 ];
 
