@@ -151,7 +151,7 @@ export default function AboutPage() {
               y: "-50%",
               scale: 1,
               position: "absolute",
-              left: "47%",
+              left: "39%",
               top: "28%",
             }}
             animate={controls}
