@@ -200,14 +200,20 @@ export default function AboutPage() {
                 ABOUT ME
               </motion.h1>
 
-              <motion.img
-                src="/under2.png"
-                alt="underline"
+              <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
                 className="absolute top-[-20px] sm:top-[-25px] md:top-[-28px] lg:top-[-32px] w-[120px] sm:w-[140px] md:w-[150px] lg:w-[180px] opacity-80"
-              />
+              >
+                <Image
+                  src="/under2.png"
+                  alt="underline"
+                  width={180}
+                  height={32}
+                  className="w-[120px] sm:w-[140px] md:w-[150px] lg:w-[180px] opacity-80"
+                />
+              </motion.div>
             </div>
           )}
 
@@ -437,9 +443,11 @@ export default function AboutPage() {
                     : "w-[240px] h-[240px] p-6"
                 }`}
               >
-                <img
+                <Image
                   src={edu.logo}
                   alt={edu.title}
+                  width={96}
+                  height={96}
                   className={`object-contain rounded-full mb-2 sm:mb-3 ${
                     isMobile
                       ? "w-10 h-10"
