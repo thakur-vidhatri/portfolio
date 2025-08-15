@@ -68,7 +68,7 @@ export default function ContactPage() {
 
   return (
     <div
-      className="min-h-screen flex justify-center items-center"
+      className="min-h-screen flex justify-center items-center px-4 sm:px-8 py-8"
       style={{
         background: "radial-gradient(circle at center, #000000, #1a1a40)",
         padding: "4rem",
@@ -76,7 +76,7 @@ export default function ContactPage() {
     >
       <div
         ref={containerRef}
-        className="relative w-[768px] h-[500px] rounded-lg overflow-hidden shadow-2xl text-white p-12"
+        className="relative w-full max-w-3xl h-auto sm:h-[500px] rounded-lg overflow-hidden shadow-2xl text-white p-6 sm:p-12"
         style={{
           backgroundColor: current.bg,
           transition: "background-color 0.4s ease",
@@ -95,16 +95,16 @@ export default function ContactPage() {
         {/* Content Layer */}
         <div className="relative z-10 flex flex-col justify-between h-full">
           <div>
-            <h2 className="text-4xl font-light">
+            <h2 className=" text-3xl sm:text-4xl font-light ">
               {current.title.split(" ")[0]}{" "}
               <strong className="font-bold">
                 {current.title.split(" ")[1]}
               </strong>
             </h2>
-            <p className="mt-6 text-lg leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg leading-relaxed">
               {current.description}
             </p>
-            <ul className="mt-4 list-disc list-inside text-base space-y-2">
+            <ul className="mt-4 list-disc list-inside text-sm sm:text-base space-y-2">
               {current.content.map((line, i) => (
                 <li key={i}>{line}</li>
               ))}
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 <li>
                   <a
                     href="mailto:thakurvidhatri45368@gmail.com"
-                    className="inline-block mt-1 bg-white text-black font-semibold px-4 py-1 rounded-full hover:bg-gray-200 transition"
+                    className="inline-block mt-1 bg-white text-black font-semibold px-4 py-1 rounded-full hover:bg-gray-200 transition text-sm"
                   >
                     Email Me
                   </a>
@@ -126,7 +126,7 @@ export default function ContactPage() {
               href={current.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 bg-white text-black font-semibold px-6 py-2 rounded-full inline-block"
+              className="mt-4 bg-white text-black font-semibold px-6 py-2 rounded-full inline-block text-sm sm:text-base"
               style={{ color: current.bg }}
             >
               Visit {current.title.split(" ")[1]}
@@ -134,12 +134,12 @@ export default function ContactPage() {
           )}
 
           {/* Tab Icons */}
-          <div className="flex gap-6 mt-8">
+          <div className="flex gap-4 sm:gap-6 mt-6 sm:mt-8 justify-center sm:justify-start">
             {tabs.map((tab) => (
               <div
                 key={tab.id}
                 onClick={(e) => handleClick(tab.id, e)}
-                className={`cursor-pointer w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                className={`cursor-pointer w-12 h-12 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all ${
                   activeTab === tab.id
                     ? "bg-white text-black border-2 border-white"
                     : "bg-white/20 text-white"

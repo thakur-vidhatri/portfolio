@@ -24,7 +24,7 @@ export default function Navbar() {
   );
 
   return (
-    <div className="fixed top-4 right-6 z-50">
+    <div className="fixed top-4 left-4 right-4 sm:top-4 sm:right-6 sm:left-auto z-50 flex justify-center sm:justify-end">
       <GooeyNav
         items={gooeyNavItems}
         initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0}

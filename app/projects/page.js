@@ -119,13 +119,39 @@ const Projectpage = () => {
   const scrollRef = useRef(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if screen is mobile size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -300 : 300,
-        behavior: "smooth",
-      });
+      if (isMobile) {
+        // Vertical scrolling for mobile
+        scrollRef.current.scrollBy({
+          top: direction === "left" ? -300 : 300,
+          behavior: "smooth",
+        });
+      } else {
+        // Horizontal scrolling for desktop
+        scrollRef.current.scrollBy({
+          left: direction === "left" ? -300 : 300,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
@@ -251,47 +277,89 @@ const Projectpage = () => {
 
       {/* Canvas gets added by useEffect and is also behind content */}
       {/* Your main content stays here */}
-      <div className="relative z-10 p-8 mt-10">
-        <h1 className="text-3xl font-bold mb-6 text-center text-white">
+      <div className="relative z-10 p-4 md:p-8 mt-10">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center text-white">
           My Projects
         </h1>
-        {/* ... rest of content */}
 
-        {/* ... rest of your code ... */}
-        <div className="relative mt-10 flex items-center justify-center w-[85%] mx-auto">
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 z-10 transform -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full"
-          >
-            <ChevronLeft />
-          </button>
+        {isMobile ? (
+          // Mobile layout - vertical scrolling
+          <div className="relative mt-6 flex flex-col items-center w-full mx-auto">
+            <div
+              ref={scrollRef}
+              className="flex flex-col gap-6 overflow-y-auto px-4 py-4 max-h-[70vh] w-full"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "rgba(255,255,255,0.3) transparent",
+              }}
+            >
+              {projects.map((project, index) => (
+                <div
+                  key={index}
+                  onClick={() => openModal(project)}
+                  className="cursor-pointer w-full"
+                >
+                  <ProjectCard
+                    image={project.image}
+                    title={project.title}
+                    subtitle={project.subtitle}
+                  />
+                </div>
+              ))}
+            </div>
 
-          <div
-            ref={scrollRef}
-            className="flex gap-10 overflow-x-auto no-scrollbar scroll-smooth px-10 py-10"
-          >
-            {projects.map((project, index) => (
-              <div
-                key={index}
-                onClick={() => openModal(project)}
-                className="cursor-pointer"
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                onClick={() => scroll("left")}
+                className="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full transform rotate-90"
               >
-                <ProjectCard
-                  image={project.image}
-                  title={project.title}
-                  subtitle={project.subtitle}
-                />
-              </div>
-            ))}
+                <ChevronLeft />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full transform rotate-90"
+              >
+                <ChevronRight />
+              </button>
+            </div>
           </div>
+        ) : (
+          // Desktop layout - horizontal scrolling (original)
+          <div className="relative mt-10 flex items-center justify-center w-[85%] mx-auto">
+            <button
+              onClick={() => scroll("left")}
+              className="absolute left-0 top-1/2 z-10 transform -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full"
+            >
+              <ChevronLeft />
+            </button>
 
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 z-10 transform -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full"
-          >
-            <ChevronRight />
-          </button>
-        </div>
+            <div
+              ref={scrollRef}
+              className="flex gap-10 overflow-x-auto no-scrollbar scroll-smooth px-10 py-10"
+            >
+              {projects.map((project, index) => (
+                <div
+                  key={index}
+                  onClick={() => openModal(project)}
+                  className="cursor-pointer"
+                >
+                  <ProjectCard
+                    image={project.image}
+                    title={project.title}
+                    subtitle={project.subtitle}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => scroll("right")}
+              className="absolute right-0 top-1/2 z-10 transform -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full"
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        )}
       </div>
 
       <ProjectModal
