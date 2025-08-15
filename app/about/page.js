@@ -3,6 +3,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import TrueFocus from "@/components/ui/TextAnimations/TrueFocus/TrueFocus";
 import Waves from "@/components/Waves";
+import Image from "next/image";
 
 export default function AboutPage() {
   const controls = useAnimation();
@@ -95,7 +96,7 @@ export default function AboutPage() {
     "What sets my work apart is how I choose my ideas: I look around at real, everyday problems",
     "from gaps in agriculture and wellness to inefficiencies in small businesses and ask,",
     "Can tech make this simpler, smarter, and more sustainable?",
-    "Whether it's developing a disease detection system for farmers, or crafting a personalized wellness platform,",
+    "Whether it&apos;s developing a disease detection system for farmers, or crafting a personalized wellness platform,",
     "I strive to use tech meaningfully, where it serves both people and the planet.",
   ];
 
@@ -211,24 +212,12 @@ export default function AboutPage() {
           )}
 
           {/* Profile Image */}
-          {/* Profile Image */}
-          <motion.img
+          <Image
             src="/me2.png"
             alt="Profile"
-            initial={{
-              x: "-50%",
-              y: 0,
-              scale: 1, // ✅ always start normal size
-              opacity: 1,
-            }}
-            animate={isMobile || isTablet ? mobileControls : controls}
-            className={`rounded-full object-cover shadow-xl absolute z-10
-    ${isMobile ? "w-24 h-24" : isTablet ? "w-28 h-28" : "w-[260px] h-[260px]"}`}
-            style={{
-              left: isMobile || isTablet ? "50%" : "39%",
-              top: isMobile ? "80px" : isTablet ? "100px" : "130px",
-              transform: "translateX(-50%)",
-            }}
+            width={260}
+            height={260}
+            className="rounded-full object-cover shadow-xl absolute z-10"
           />
 
           {/* Name Text */}
@@ -248,7 +237,7 @@ export default function AboutPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
                   >
-                    I'M VIDHATRI
+                    I&apos;M VIDHATRI
                   </motion.div>
                 </div>
               )}
@@ -367,20 +356,20 @@ export default function AboutPage() {
                 THE WHY BEHIND MY WORK
               </h2>
               <p className="text-white leading-relaxed md:leading-loose text-xs sm:text-sm md:text-base lg:text-lg font-hand font-medium text-center mt-7 sm:mt-4">
-                Every breakthrough begins with a question — "What if?" What if
-                machines could see like us? Think like us? Solve the problems we
-                overlook? That&apos;s the spark of ideation not just building
-                apps, but building answers. In a world overflowing with data, AI
-                and deep learning aren&apos;t just tools they&apos;re lenses
-                that reveal what humans can&apos;t always see. They transform
-                patterns into predictions, effort into efficiency, and ideas
-                into impact. The journey from idea to innovation isn&apos;t
-                linear. It&apos;s a dance between observation and curiosity
-                spotting gaps, connecting dots, and shaping tech that
-                doesn&apos;t just impress, but matters. Because the real power
-                of AI lies not in automation, but in augmentation of human
-                potential, of sustainable systems, of the future we dare to
-                imagine.
+                Every breakthrough begins with a question &mdash; &quot;What
+                if?&quot; What if machines could see like us? Think like us?
+                Solve the problems we overlook? That&apos;s the spark of
+                ideation not just building apps, but building answers. In a
+                world overflowing with data, AI and deep learning aren&apos;t
+                just tools they&apos;re lenses that reveal what humans
+                can&apos;t always see. They transform patterns into predictions,
+                effort into efficiency, and ideas into impact. The journey from
+                idea to innovation isn&apos;t linear. It&apos;s a dance between
+                observation and curiosity spotting gaps, connecting dots, and
+                shaping tech that doesn&apos;t just impress, but matters.
+                Because the real power of AI lies not in automation, but in
+                augmentation of human potential, of sustainable systems, of the
+                future we dare to imagine.
               </p>
             </motion.div>
           )}
