@@ -321,7 +321,11 @@ export default function AboutPage() {
           >
             <div className="flex items-center justify-center w-full py-10">
               {/* Left Dots */}
-              <div className="flex absolute left-4 gap-2 mr-4">
+              <div
+                className={`flex absolute gap-2 mr-4 ${
+                  isMobile ? "left-6" : isTablet ? "left-4" : "left-4"
+                }`}
+              >
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
@@ -331,11 +335,11 @@ export default function AboutPage() {
               </div>
 
               {/* Horizontal Lines */}
-              <div className="flex flex-col items-start">
+              <div className="flex flex-col items-center">
                 <div
-                  className={`h-0.5 md:h-1 absolute bg-white mb-4 ${
+                  className={`h-0.5 md:h-1 absolute bg-white ${
                     isMobile
-                      ? "left-[40px] w-[60%]"
+                      ? "left-[90px] w-[200px]"
                       : isTablet
                       ? "left-[80px] w-[65%]"
                       : "left-[116px] w-[70%]"
@@ -344,7 +348,7 @@ export default function AboutPage() {
                 <div
                   className={`h-0.5 md:h-1 absolute bg-white ${
                     isMobile
-                      ? "top-[35px] left-[60px] w-[50%]"
+                      ? "top-[25px] left-[60px] w-[200px]"
                       : isTablet
                       ? "top-[45px] left-[140px] w-[60%]"
                       : "top-[58px] left-[192px] w-[70%]"
@@ -356,7 +360,7 @@ export default function AboutPage() {
               <div
                 className={`flex absolute gap-2 ml-4 ${
                   isMobile
-                    ? "top-[35px] right-[20px]"
+                    ? "top-[25px] right-6"
                     : isTablet
                     ? "top-[45px] right-[40px]"
                     : "top-[55px] right-[64px]"

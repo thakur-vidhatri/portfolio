@@ -64,7 +64,7 @@ const projects = [
     description:
       " Developed a deep learning project for potato disease detection using a CNN trained on potato leaf diseases. Built a FastAPI backend for model deployment and integrated it with a React.js frontend to create a complete web application. ",
     features: ["Comic-style narration", "Dynamic lighting", "Multiple paths"],
-    images: ["/scarlet1.png", "/scarlet2.png", "/scarlet3.png"],
+    images: ["/pot2.png", "/pot1.png"],
     github: "https://github.com/thakur-vidhatri/potato_disease",
   },
   {
