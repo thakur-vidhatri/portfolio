@@ -390,20 +390,20 @@ export default function AboutPage() {
                 THE WHY BEHIND MY WORK
               </h2>
               <p className="text-white leading-relaxed md:leading-loose text-xs sm:text-sm md:text-base lg:text-lg font-hand font-medium text-center mt-2 sm:mt-4">
-                Every breakthrough begins with a question — "What if?" What if
-                machines could see like us? Think like us? Solve the problems we
-                overlook? That&apos;s the spark of ideation not just building
-                apps, but building answers. In a world overflowing with data, AI
-                and deep learning aren&apos;t just tools they&apos;re lenses
-                that reveal what humans can&apos;t always see. They transform
-                patterns into predictions, effort into efficiency, and ideas
-                into impact. The journey from idea to innovation isn&apos;t
-                linear. It&apos;s a dance between observation and curiosity
-                spotting gaps, connecting dots, and shaping tech that
-                doesn&apos;t just impress, but matters. Because the real power
-                of AI lies not in automation, but in augmentation of human
-                potential, of sustainable systems, of the future we dare to
-                imagine.
+                Every breakthrough begins with a question &mdash; &quot;What
+                if?&quot; What if machines could see like us? Think like us?
+                Solve the problems we overlook? That&apos;s the spark of
+                ideation not just building apps, but building answers. In a
+                world overflowing with data, AI and deep learning aren&apos;t
+                just tools they&apos;re lenses that reveal what humans
+                can&apos;t always see. They transform patterns into predictions,
+                effort into efficiency, and ideas into impact. The journey from
+                idea to innovation isn&apos;t linear. It&apos;s a dance between
+                observation and curiosity spotting gaps, connecting dots, and
+                shaping tech that doesn&apos;t just impress, but matters.
+                Because the real power of AI lies not in automation, but in
+                augmentation of human potential, of sustainable systems, of the
+                future we dare to imagine.
               </p>
             </motion.div>
           )}
