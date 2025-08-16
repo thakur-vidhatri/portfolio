@@ -3,24 +3,24 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import TrueFocus from "@/components/ui/TextAnimations/TrueFocus/TrueFocus";
 import Waves from "@/components/Waves";
-import Image from "next/image";
 
 export default function AboutPage() {
   const controls = useAnimation();
-  const mobileControls = useAnimation();
   const [showAboutTitle, setShowAboutTitle] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [showBox, setShowBox] = useState(false);
   const [showSummaryText, setShowSummaryText] = useState(false);
   const [showMotivation, setShowMotivation] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
+  const [isMobile, setIsMobile] = useState(null); // Changed to null initially
+  const [isTablet, setIsTablet] = useState(null); // Changed to null initially
+  const [isLoaded, setIsLoaded] = useState(false); // Add loading state
 
   useEffect(() => {
     const checkScreenSize = () => {
       const width = window.innerWidth;
       setIsMobile(width < 768);
       setIsTablet(width >= 768 && width < 1024);
+      setIsLoaded(true); // Set loaded after first screen size check
     };
 
     checkScreenSize();
@@ -30,20 +30,25 @@ export default function AboutPage() {
 
   useEffect(() => {
     const startSequence = async () => {
-      await new Promise((res) => setTimeout(res, 1000));
+      // Wait for component to be fully loaded and screen size detected
+      if (!isLoaded || isMobile === null || isTablet === null) return;
 
+      await new Promise((res) => setTimeout(res, 500)); // Reduced initial delay
+
+      // Run animations for all screen sizes with different parameters
       if (isMobile || isTablet) {
-        // ✅ only zoom in/out after load, not before
-        await mobileControls.start({
-          scale: 1.8,
-          transition: { duration: 0.8, ease: "easeInOut" },
+        // Mobile/Tablet animations - simpler scale animation
+        await controls.start({
+          scale: 1.5,
+          transition: { duration: 0.6 },
         });
 
-        await mobileControls.start({
+        await controls.start({
           scale: 1,
-          transition: { duration: 0.8, ease: "easeInOut" },
+          transition: { duration: 0.6 },
         });
       } else {
+        // Desktop animations - original complex animation
         await controls.start({
           scale: 2,
           transition: { duration: 0.8 },
@@ -70,10 +75,23 @@ export default function AboutPage() {
       }, 800);
     };
 
-    if (isMobile !== null && isTablet !== null) {
-      startSequence();
-    }
-  }, [controls, mobileControls, isMobile, isTablet]);
+    startSequence();
+  }, [controls, isMobile, isTablet, isLoaded]); // Add isLoaded dependency
+
+  // Don't render anything until screen size is detected
+  if (!isLoaded || isMobile === null || isTablet === null) {
+    return (
+      <main className="relative min-h-screen w-full text-white overflow-hidden">
+        {/* Radial Gradient Background */}
+        <div className="fixed inset-0 z-[-2] bg-[radial-gradient(circle_at_center,_#000000,_#1a1a40)]" />
+
+        {/* Loading placeholder */}
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-pulse text-xl">Loading...</div>
+        </div>
+      </main>
+    );
+  }
 
   const lineVariant = {
     hidden: { opacity: 0, y: 20 },
@@ -96,7 +114,7 @@ export default function AboutPage() {
     "What sets my work apart is how I choose my ideas: I look around at real, everyday problems",
     "from gaps in agriculture and wellness to inefficiencies in small businesses and ask,",
     "Can tech make this simpler, smarter, and more sustainable?",
-    "Whether it&apos;s developing a disease detection system for farmers, or crafting a personalized wellness platform,",
+    "Whether it's developing a disease detection system for farmers, or crafting a personalized wellness platform,",
     "I strive to use tech meaningfully, where it serves both people and the planet.",
   ];
 
@@ -130,21 +148,21 @@ export default function AboutPage() {
   const getResponsiveValues = () => {
     if (isMobile) {
       return {
-        aboutSectionHeight: "1200px",
-        educationTop: "1280px",
+        aboutSectionHeight: "1300px", // Increased from 1100px
+        educationTop: "1400px", // Adjusted accordingly
         educationHeight: "620px",
-        achievementsTop: "1940px",
+        achievementsTop: "2060px", // Adjusted accordingly
         achievementsHeight: "600px",
-        spacerTop: "2600px",
+        spacerTop: "2720px", // Adjusted accordingly
       };
     } else if (isTablet) {
       return {
-        aboutSectionHeight: "1150px",
-        educationTop: "1220px",
+        aboutSectionHeight: "1250px", // Increased from 1050px
+        educationTop: "1340px", // Adjusted accordingly
         educationHeight: "500px",
-        achievementsTop: "1760px",
+        achievementsTop: "1880px", // Adjusted accordingly
         achievementsHeight: "650px",
-        spacerTop: "2510px",
+        spacerTop: "2630px", // Adjusted accordingly
       };
     } else {
       return {
@@ -200,31 +218,48 @@ export default function AboutPage() {
                 ABOUT ME
               </motion.h1>
 
-              <motion.div
+              <motion.img
+                src="/under2.png"
+                alt="underline"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
                 className="absolute top-[-20px] sm:top-[-25px] md:top-[-28px] lg:top-[-32px] w-[120px] sm:w-[140px] md:w-[150px] lg:w-[180px] opacity-80"
-              >
-                <Image
-                  src="/under2.png"
-                  alt="underline"
-                  width={180}
-                  height={32}
-                  className="w-[120px] sm:w-[140px] md:w-[150px] lg:w-[180px] opacity-80"
-                />
-              </motion.div>
+              />
             </div>
           )}
 
           {/* Profile Image */}
-          <Image
-            src="/me2.png"
-            alt="Profile"
-            width={260}
-            height={260}
-            className="rounded-full object-cover shadow-xl absolute z-10"
-          />
+          {!isMobile && !isTablet ? (
+            // Desktop: Shifted up positioning with animation
+            <motion.img
+              src="/me2.png"
+              alt="Profile"
+              initial={{
+                x: "-50%",
+                y: "-50%",
+                scale: 1,
+                position: "absolute",
+                left: "39%",
+                top: "24%",
+              }}
+              animate={controls}
+              className="w-66 h-66 rounded-full object-cover shadow-xl absolute top-[130px]"
+            />
+          ) : (
+            // Mobile/Tablet: Animated positioning above name
+            <div className="absolute left-1/2 transform -translate-x-1/2 top-[80px] sm:top-[90px] md:top-[100px] z-10">
+              <motion.img
+                src="/me2.png"
+                alt="Profile"
+                initial={{
+                  scale: 1,
+                }}
+                animate={controls}
+                className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full object-cover shadow-xl"
+              />
+            </div>
+          )}
 
           {/* Name Text */}
           {showTitle && (
@@ -235,16 +270,9 @@ export default function AboutPage() {
                   <TrueFocus text="I'M VIDHATRI" />
                 </div>
               ) : (
-                // Mobile/Tablet: Below image with animation
-                <div className="absolute left-1/2 transform -translate-x-1/2 top-[170px] sm:top-[190px] md:top-[210px] max-w-xl w-full text-center z-10 mt-4">
-                  <motion.div
-                    className="text-2xl sm:text-3xl md:text-3xl font-bold text-white tracking-wider"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    I&apos;M VIDHATRI
-                  </motion.div>
+                // Mobile/Tablet: Use TrueFocus with moved down position
+                <div className="absolute left-1/2 transform -translate-x-1/2 top-[190px] sm:top-[210px] md:top-[230px] max-w-xl w-full text-center z-10">
+                  <TrueFocus text="I'M VIDHATRI" />
                 </div>
               )}
             </>
@@ -260,8 +288,8 @@ export default function AboutPage() {
                 isMobile || isTablet
                   ? `left-1/2 transform -translate-x-1/2 ${
                       isMobile
-                        ? "top-[230px] w-[calc(100%-20px)] min-h-[320px]"
-                        : "top-[250px] w-[calc(100%-40px)] min-h-[280px]"
+                        ? "top-[250px] w-[calc(100%-20px)] min-h-[320px]"
+                        : "top-[270px] w-[calc(100%-40px)] min-h-[280px]"
                     }`
                   : "right-[50px] top-[230px] w-[800px] min-h-[180px]"
               }`}
@@ -285,15 +313,15 @@ export default function AboutPage() {
             </motion.div>
           )}
 
-          {/* Decorative Lines and Dots - Fixed positioning */}
+          {/* Decorative Lines and Dots */}
           <div
-            className={`absolute w-[90%] left-1/2 transform -translate-x-1/2 ${
-              isMobile ? "top-[640px]" : isTablet ? "top-[590px]" : "top-[54%]"
+            className={`absolute w-[90%] justify-center items-center left-1/2 transform -translate-x-1/2 ${
+              isMobile ? "top-[650px]" : isTablet ? "top-[630px]" : "top-[52%]"
             }`}
           >
-            <div className="flex items-center justify-center w-full relative py-6">
+            <div className="flex items-center justify-center w-full py-10">
               {/* Left Dots */}
-              <div className="flex absolute left-4 gap-2">
+              <div className="flex absolute left-4 gap-2 mr-4">
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
@@ -302,36 +330,36 @@ export default function AboutPage() {
                 ))}
               </div>
 
-              {/* Main horizontal line */}
-              <div
-                className={`h-0.5 md:h-1 bg-white ${
-                  isMobile
-                    ? "w-[calc(100%-135px)] ml-4"
-                    : isTablet
-                    ? "w-[calc(100%-200px)] mx-auto"
-                    : "w-[calc(100%-200px)] mx-auto"
-                }`}
-              />
-
-              {/* Secondary line - positioned below and offset */}
-              <div
-                className={`h-0.5 md:h-1 bg-white absolute ${
-                  isMobile
-                    ? "top-[40px] left-[40px] w-[65%]"
-                    : isTablet
-                    ? "top-[45px] left-[100px] w-[68%]"
-                    : "top-[50px] left-[160px] w-[74%]"
-                }`}
-              />
+              {/* Horizontal Lines */}
+              <div className="flex flex-col items-start">
+                <div
+                  className={`h-0.5 md:h-1 absolute bg-white mb-4 ${
+                    isMobile
+                      ? "left-[40px] w-[60%]"
+                      : isTablet
+                      ? "left-[80px] w-[65%]"
+                      : "left-[116px] w-[70%]"
+                  }`}
+                />
+                <div
+                  className={`h-0.5 md:h-1 absolute bg-white ${
+                    isMobile
+                      ? "top-[35px] left-[60px] w-[50%]"
+                      : isTablet
+                      ? "top-[45px] left-[140px] w-[60%]"
+                      : "top-[58px] left-[192px] w-[70%]"
+                  }`}
+                />
+              </div>
 
               {/* Right Dots */}
               <div
-                className={`flex absolute gap-2 ${
+                className={`flex absolute gap-2 ml-4 ${
                   isMobile
-                    ? "top-[40px] right-[20px]"
+                    ? "top-[35px] right-[20px]"
                     : isTablet
                     ? "top-[45px] right-[40px]"
-                    : "top-[50px] right-[60px]"
+                    : "top-[55px] right-[64px]"
                 }`}
               >
                 {[...Array(5)].map((_, i) => (
@@ -352,30 +380,30 @@ export default function AboutPage() {
               transition={{ duration: 1 }}
               className={`absolute left-1/2 transform -translate-x-1/2 px-4 md:px-6 py-4 rounded-xl bg-white/10 backdrop-blur-md shadow-md ${
                 isMobile
-                  ? "top-[720px] w-[calc(100%-20px)] min-h-[420px]"
+                  ? "top-[750px] w-[calc(100%-20px)] min-h-[450px]"
                   : isTablet
-                  ? "top-[680px] w-[calc(100%-40px)] min-h-[400px]"
-                  : "top-[64%] w-[90%] h-[350px]"
+                  ? "top-[730px] w-[calc(100%-40px)] min-h-[400px]"
+                  : "top-[62%] w-[90%] h-[350px]"
               }`}
             >
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 md:mb-8 text-center">
                 THE WHY BEHIND MY WORK
               </h2>
-              <p className="text-white leading-relaxed md:leading-loose text-xs sm:text-sm md:text-base lg:text-lg font-hand font-medium text-center mt-7 sm:mt-4">
-                Every breakthrough begins with a question &mdash; &quot;What
-                if?&quot; What if machines could see like us? Think like us?
-                Solve the problems we overlook? That&apos;s the spark of
-                ideation not just building apps, but building answers. In a
-                world overflowing with data, AI and deep learning aren&apos;t
-                just tools they&apos;re lenses that reveal what humans
-                can&apos;t always see. They transform patterns into predictions,
-                effort into efficiency, and ideas into impact. The journey from
-                idea to innovation isn&apos;t linear. It&apos;s a dance between
-                observation and curiosity spotting gaps, connecting dots, and
-                shaping tech that doesn&apos;t just impress, but matters.
-                Because the real power of AI lies not in automation, but in
-                augmentation of human potential, of sustainable systems, of the
-                future we dare to imagine.
+              <p className="text-white leading-relaxed md:leading-loose text-xs sm:text-sm md:text-base lg:text-lg font-hand font-medium text-center mt-2 sm:mt-4">
+                Every breakthrough begins with a question — "What if?" What if
+                machines could see like us? Think like us? Solve the problems we
+                overlook? That&apos;s the spark of ideation not just building
+                apps, but building answers. In a world overflowing with data, AI
+                and deep learning aren&apos;t just tools they&apos;re lenses
+                that reveal what humans can&apos;t always see. They transform
+                patterns into predictions, effort into efficiency, and ideas
+                into impact. The journey from idea to innovation isn&apos;t
+                linear. It&apos;s a dance between observation and curiosity
+                spotting gaps, connecting dots, and shaping tech that
+                doesn&apos;t just impress, but matters. Because the real power
+                of AI lies not in automation, but in augmentation of human
+                potential, of sustainable systems, of the future we dare to
+                imagine.
               </p>
             </motion.div>
           )}
@@ -403,12 +431,12 @@ export default function AboutPage() {
             />
           </div>
           <div
-            className={`grid gap-3 sm:gap-5 md:gap-6 lg:gap-8 justify-items-center ${
+            className={`grid gap-3 sm:gap-4 md:gap-6 lg:gap-8 justify-items-center ${
               isMobile
-                ? "grid-cols-1 px-2 mt-9"
+                ? "grid-cols-1 px-2 mt-8"
                 : isTablet
-                ? "grid-cols-1 px-8 mt-2 sm:mt-4 md:mt-6"
-                : "grid-cols-3 px-2 mt-2 sm:mt-4 md:mt-6"
+                ? "grid-cols-1 px-8 mt-10"
+                : "grid-cols-3 px-2 mt-12"
             }`}
           >
             {[
@@ -443,11 +471,9 @@ export default function AboutPage() {
                     : "w-[240px] h-[240px] p-6"
                 }`}
               >
-                <Image
+                <img
                   src={edu.logo}
                   alt={edu.title}
-                  width={96}
-                  height={96}
                   className={`object-contain rounded-full mb-2 sm:mb-3 ${
                     isMobile
                       ? "w-10 h-10"
@@ -500,15 +526,7 @@ export default function AboutPage() {
               className="absolute left-1/2 transform -translate-x-1/2 top-[-18px] sm:top-[-22px] md:top-[-25px] lg:top-[-30px] w-[120px] sm:w-[140px] md:w-[150px] lg:w-[180px] opacity-80"
             />
           </div>
-          <div
-            className={`space-y-3 sm:space-y-4 md:space-y-6 px-1 sm:px-2 ${
-              isMobile
-                ? "mt-8"
-                : isTablet || !isMobile
-                ? "mt-6 sm:mt-8 md:mt-12"
-                : "mt-6 sm:mt-8 md:mt-12"
-            }`}
-          >
+          <div className="space-y-3 sm:space-y-4 md:space-y-6 mt-6 sm:mt-8 md:mt-12 px-1 sm:px-2">
             {achievements.map((item, idx) => (
               <motion.div
                 key={idx}
