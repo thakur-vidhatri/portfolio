@@ -119,22 +119,22 @@ const Projectpage = () => {
   const scrollRef = useRef(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(null); // Change to null initially
+  const [isTablet, setIsTablet] = useState(null); // Change to null initially
+  const [isLoaded, setIsLoaded] = useState(false); // Add loading state
 
   // Check if screen is mobile size
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+      setIsLoaded(true); // Set loaded after first screen size check
     };
 
-    // Initial check
-    checkMobile();
-
-    // Add resize listener
-    window.addEventListener("resize", checkMobile);
-
-    // Cleanup
-    return () => window.removeEventListener("resize", checkMobile);
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   const scroll = (direction) => {
@@ -266,6 +266,21 @@ const Projectpage = () => {
       document.body.removeChild(canvas);
     };
   }, []);
+
+  // Don't render main content until screen size is detected
+  if (!isLoaded || isMobile === null || isTablet === null) {
+    return (
+      <main className="relative min-h-screen w-full text-white overflow-hidden">
+        {/* Background */}
+        <div className="fixed inset-0 z-[-2] bg-[radial-gradient(circle_at_center,_#000000,_#1a1a40)]" />
+
+        {/* Loading placeholder */}
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-pulse text-xl">Loading...</div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <div

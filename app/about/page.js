@@ -148,21 +148,21 @@ export default function AboutPage() {
   const getResponsiveValues = () => {
     if (isMobile) {
       return {
-        aboutSectionHeight: "1300px", // Increased from 1100px
-        educationTop: "1400px", // Adjusted accordingly
+        aboutSectionHeight: "1150px", // Reduced from 1300px
+        educationTop: "1250px", // Adjusted accordingly
         educationHeight: "620px",
-        achievementsTop: "2060px", // Adjusted accordingly
+        achievementsTop: "1910px", // Adjusted accordingly
         achievementsHeight: "600px",
-        spacerTop: "2720px", // Adjusted accordingly
+        spacerTop: "2570px", // Adjusted accordingly
       };
     } else if (isTablet) {
       return {
-        aboutSectionHeight: "1250px", // Increased from 1050px
-        educationTop: "1340px", // Adjusted accordingly
+        aboutSectionHeight: "1100px", // Reduced from 1250px
+        educationTop: "1190px", // Adjusted accordingly
         educationHeight: "500px",
-        achievementsTop: "1880px", // Adjusted accordingly
+        achievementsTop: "1730px", // Adjusted accordingly
         achievementsHeight: "650px",
-        spacerTop: "2630px", // Adjusted accordingly
+        spacerTop: "2480px", // Adjusted accordingly
       };
     } else {
       return {
@@ -380,9 +380,9 @@ export default function AboutPage() {
               transition={{ duration: 1 }}
               className={`absolute left-1/2 transform -translate-x-1/2 px-4 md:px-6 py-4 rounded-xl bg-white/10 backdrop-blur-md shadow-md ${
                 isMobile
-                  ? "top-[750px] w-[calc(100%-20px)] min-h-[450px]"
+                  ? "top-[750px] w-[calc(100%-20px)] min-h-[350px]"
                   : isTablet
-                  ? "top-[730px] w-[calc(100%-40px)] min-h-[400px]"
+                  ? "top-[730px] w-[calc(100%-40px)] min-h-[320px]"
                   : "top-[62%] w-[90%] h-[350px]"
               }`}
             >

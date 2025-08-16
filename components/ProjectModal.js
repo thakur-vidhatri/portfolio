@@ -27,8 +27,8 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
       `}</style>
 
       {/* Modal Background */}
-      <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-        <div className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-6xl flex flex-col md:flex-row relative glow-border">
+      <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl shadow-lg w-[95%] max-w-6xl max-h-[90vh] flex flex-col relative glow-border overflow-hidden">
           {/* Close Button */}
           <button
             onClick={onClose}
@@ -42,52 +42,65 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
             />
           </button>
 
-          {/* Left Side - Project Info */}
-          <div className="md:w-1/2 space-y-4 pr-6">
-            <BlurText text={project?.title} className="text-3xl font-bold" />
-            <p className="text-sm italic text-pink-600">{project?.subtitle}</p>
-            <p className="text-gray-700 text-sm">{project?.description}</p>
+          {/* Scrollable Content */}
+          <div className="flex flex-col md:flex-row overflow-y-auto p-6 pt-16 md:pt-6">
+            {/* Left Side - Project Info */}
+            <div className="md:w-1/2 space-y-4 md:pr-6 mb-6 md:mb-0">
+              <BlurText
+                text={project?.title}
+                className="text-2xl md:text-3xl font-bold"
+              />
+              <p className="text-sm italic text-pink-600">
+                {project?.subtitle}
+              </p>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                {project?.description}
+              </p>
 
-            <div>
-              <h4 className="font-semibold mt-3">Features:</h4>
-              {project?.features?.length > 0 ? (
-                <ul className="list-disc ml-5 text-sm text-gray-600">
-                  {project.features.map((feat, i) => (
-                    <li key={i}>{feat}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-xs text-gray-400">No features listed.</p>
+              <div>
+                <h4 className="font-semibold mt-3 mb-2">Features:</h4>
+                {project?.features?.length > 0 ? (
+                  <ul className="list-disc ml-5 text-sm text-gray-600 space-y-1">
+                    {project.features.map((feat, i) => (
+                      <li key={i}>{feat}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-gray-400">No features listed.</p>
+                )}
+              </div>
+
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                >
+                  View on GitHub
+                </a>
               )}
             </div>
 
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-4 bg-black text-white px-4 py-2 rounded-lg"
-              >
-                View on GitHub
-              </a>
-            )}
-          </div>
-
-          {/* Right Side - Images */}
-          <div className="md:w-1/2 grid grid-cols-2 gap-3 mt-14">
-            {project?.images?.length > 0 ? (
-              project.images.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`Screenshot ${i + 1}`}
-                  className="rounded-2xl object-cover h-45 w-58 border-2 border-gray-500 cursor-pointer hover:scale-105 transition-transform"
-                  onClick={() => setSelectedImage(img)}
-                />
-              ))
-            ) : (
-              <p className="text-xs text-gray-400">No images available.</p>
-            )}
+            {/* Right Side - Images */}
+            <div className="md:w-1/2">
+              <h4 className="font-semibold mb-3 md:hidden">Screenshots:</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {project?.images?.length > 0 ? (
+                  project.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`Screenshot ${i + 1}`}
+                      className="rounded-2xl object-cover w-full h-32 sm:h-40 md:h-45 border-2 border-gray-500 cursor-pointer hover:scale-105 transition-transform"
+                      onClick={() => setSelectedImage(img)}
+                    />
+                  ))
+                ) : (
+                  <p className="text-xs text-gray-400">No images available.</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -95,13 +108,13 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
       {/* Fullscreen Image Overlay */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
           onClick={() => setSelectedImage(null)}
         >
           <img
             src={selectedImage}
             alt="Expanded"
-            className="max-w-full max-h-full rounded-lg shadow-2xl border-4 border-white"
+            className="max-w-full max-h-full rounded-lg shadow-2xl border-4 border-white object-contain"
           />
         </div>
       )}
